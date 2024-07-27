@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, TextArea } from "@radix-ui/themes";
-import { addTodo } from "../api/todoactions";
+import { addTodo } from "../../api/todoactions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface IFormInput {
   task: string;
 }
@@ -10,9 +12,17 @@ interface IFormInput {
 
 const AddForm: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
-    const [loading, setLoading]= useState(false)
-  const onSubmit: SubmitHandler<IFormInput> =async (data) => {
-        const response= await addTodo(data)
+    const [isloading, setLoading]= useState(false)
+    const onSubmit: SubmitHandler<IFormInput> =async (data) => {
+      setLoading(true)
+      try{
+        await addTodo(data.task)
+        toast.success("Task added Succesful")
+      }catch(err:any){
+         toast.error(err.message)
+      }finally{
+        setLoading(false)
+      }
 
   };
 
@@ -34,11 +44,17 @@ const AddForm: React.FC = () => {
       <Button
         type="submit" 
         className="text-white"
-         variant="surface" highContrast
-      >
+         variant="classic"
+          loading={isloading}
+          disabled={isloading}
+          highContrast
+          >
         Add
       </Button>
+       <ToastContainer />
     </form>
+           
+
   );
 };
 
