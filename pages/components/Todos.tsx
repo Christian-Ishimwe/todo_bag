@@ -14,7 +14,7 @@ interface TodosProps {
   onTaskUpdated: () => void;
 }
 
-const Todos: React.FC<TodosProps> = ({ tasks, onTaskUpdated }) => {
+const Todos: React.FC<TodosProps> = ({ tasks=[], onTaskUpdated}) => {
   const handleEdit = async (id: string) => {
     try {
       const task = window.prompt('Enter the edited task');
