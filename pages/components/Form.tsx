@@ -5,7 +5,7 @@ import { Button, TextArea } from '@radix-ui/themes';
 import { addTodo } from '@/api/todoactions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useSession } from 'next-auth/react';
 interface IFormInput {
   task: string;
 }
@@ -17,11 +17,12 @@ interface AddFormProps {
 const AddForm: React.FC<AddFormProps> = ({ onTaskAdded }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
   const [isLoading, setLoading] = useState(false);
-
+  const {data}= useSession()
+  const usermail= data?.user?.email!
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true);
     try {
-      await addTodo(data.task);
+      await addTodo(data.task, usermail);
       toast.success('Task added successfully');
       document.querySelector("form")?.reset()
       onTaskAdded(); 

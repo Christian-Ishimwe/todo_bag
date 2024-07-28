@@ -3,10 +3,10 @@ import db from './db/drizzle';
 import { todo } from './db/schema';
 import { eq } from 'drizzle-orm';
 
-export const addTodo = async (task: string) => {
+export const addTodo = async (task: string, usermail:string) => {
   try {
     const id = uuidv4();
-    await db.insert(todo).values({ id, task });
+    await db.insert(todo).values({ id:id, task: task, usermail:usermail});
 
 } catch (error) {
     console.error('Error adding todo:', error);
@@ -14,9 +14,10 @@ export const addTodo = async (task: string) => {
   }
 };
 
-export const getTodo = async () => {
+export const getTodo = async (user:string) => {
   try {
-    const data = await db.select().from(todo).orderBy(todo.done);
+    const data = await db.select().from(todo).where(eq(todo.usermail, user))
+    .orderBy(todo.done);
     return data;
   } catch (error) {
     console.error('Error fetching todos:', error);
