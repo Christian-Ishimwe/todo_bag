@@ -58,7 +58,7 @@ const Todos: React.FC<TodosProps> = ({ tasks=[], onTaskUpdated}) => {
             <input
               type="checkbox"
               checked={task.done}
-              className="mr-2"
+              className="mr-2 flex-1"
               onChange={() => handleStatusChange(task.id, task.done)}
             />
             <input

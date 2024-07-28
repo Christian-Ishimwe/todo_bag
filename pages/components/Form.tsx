@@ -23,6 +23,7 @@ const AddForm: React.FC<AddFormProps> = ({ onTaskAdded }) => {
     try {
       await addTodo(data.task);
       toast.success('Task added successfully');
+      document.querySelector("form")?.reset()
       onTaskAdded(); 
     } catch (err: any) {
       toast.error(err.message);
