@@ -5,14 +5,11 @@ import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Inter } from 'next/font/google';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
-
 const inter = Inter({ subsets: ['latin'] });
-
 export default function IndexPage() {
   const { data, status } = useSession();
   const router = useRouter();
   const [signingInProvider, setSigningInProvider] = useState(null);
-
   if (status === 'loading') {
     return (
       <div className={`container ${inter.className} min-h-screen flex items-center justify-center bg-gray-900 text-white`}>

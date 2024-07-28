@@ -1,7 +1,27 @@
-// components/Todos.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { changeStatus, deleteTodo, editTodo } from '@/api/todoactions';
+import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter
+} from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog';
 
 interface Task {
   id: string;
@@ -15,28 +35,30 @@ interface TodosProps {
 }
 
 const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
-  const handleEdit = async (id: string) => {
-    try {
-      const task = window.prompt('Enter the edited task');
-      if (task) {
-        await editTodo(id, task);
+  const [editTaskId, setEditTaskId] = useState<string | null>(null);
+  const [editTaskValue, setEditTaskValue] = useState<string>('');
+
+  const handleEdit = async () => {
+    if (editTaskId && editTaskValue) {
+      try {
+        await editTodo(editTaskId, editTaskValue);
         toast.success('Task updated successfully');
         onTaskUpdated();
+        setEditTaskId(null);
+        setEditTaskValue('');
+      } catch (err: any) {
+        toast.error(err.message);
       }
-    } catch (err: any) {
-      toast.error(err.message);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this task?')) {
-      try {
-        await deleteTodo(id);
-        toast.success('Task deleted successfully');
-        onTaskUpdated();
-      } catch (err: any) {
-        toast.error(err.message);
-      }
+    try {
+      await deleteTodo(id);
+      toast.success('Task deleted successfully');
+      onTaskUpdated();
+    } catch (err: any) {
+      toast.error(err.message);
     }
   };
 
@@ -57,7 +79,10 @@ const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
       ) : (
         <ul className="space-y-2">
           {tasks.map((task) => (
-            <li key={task.id} className="p-4 border-b border-gray-700 flex flex-col md:flex-row md:items-center md:space-x-4 bg-gray-800 rounded-md">
+            <li
+              key={task.id}
+              className="p-4 border-b border-gray-700 flex flex-col md:flex-row md:items-center md:space-x-4 bg-gray-800 rounded-md"
+            >
               <div className="flex items-center w-full">
                 <input
                   type="checkbox"
@@ -66,31 +91,86 @@ const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
                   onChange={() => handleStatusChange(task.id, task.done)}
                 />
                 <div className="flex-1 overflow-hidden">
-                 
-                    
                   <input
                     type="text"
                     value={task.task}
                     readOnly
-                    className=" bg-inherit text-white border-none w-full truncate outline-0 overflow-auto"
+                    className="bg-inherit text-white border-none w-full truncate outline-0"
                   />
                 </div>
               </div>
               <div className="mt-2 md:mt-0 flex space-x-2 md:space-x-4">
-                <button
-                  type="button"
-                  className="bg-slate-500 text-white px-4 py-2 rounded-md"
-                  onClick={() => handleEdit(task.id)}
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  className="bg-red-700 text-white px-4 py-2 rounded-md"
-                  onClick={() => handleDelete(task.id)}
-                >
-                  Delete
-                </button>
+                <Dialog open={editTaskId === task.id} onOpenChange={(open) => !open && setEditTaskId(null)}>
+                  <DialogTrigger asChild>
+                    <button
+                      type="button"
+                      className="bg-slate-500 text-white px-4 py-2 rounded-md"
+                      onClick={() => {
+                        setEditTaskId(task.id);
+                        setEditTaskValue(task.task);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Edit the Task</DialogTitle>
+                      <DialogDescription  className="mb-3"
+>
+                        <Input
+                          value={editTaskValue}
+                          onChange={(e) => setEditTaskValue(e.target.value)}
+                          className="mt-4 outline-1"
+                        />
+                      </DialogDescription>
+                      <DialogFooter 
+                      >
+                        <button
+                          type="button"
+                          className="bg-slate-500 text-white px-4 py-2 rounded-md"
+                          onClick={() => setEditTaskId(null)} 
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="bg-slate-900 text-white px-4 py-2 rounded-md "
+                          onClick={handleEdit} 
+                          
+                        >
+                          Update
+                        </button>
+                      </DialogFooter>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button
+                      type="button"
+                      className="bg-red-700 text-white px-4 py-2 rounded-md"
+                    >
+                      Delete
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This task cannot be undone. This will permanently delete your task.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleDelete(task.id)}
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </li>
           ))}
