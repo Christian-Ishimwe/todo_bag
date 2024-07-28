@@ -26,7 +26,7 @@ export default function IndexPage() {
     return null; 
   }
 
-  const handleSignIn = async (provider) => {
+  const handleSignIn = async (provider:any) => {
     setSigningInProvider(provider);
     await signIn(provider);
     setSigningInProvider(null); 

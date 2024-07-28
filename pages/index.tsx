@@ -69,7 +69,7 @@ export default function Home() {
         </button>
         <div className="text-white w-full max-w-2xl mx-auto bg-slate-900 rounded-md p-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
-            {data.user?.name?.split(" ")[1]}'s To Do
+            {data.user?.name?.split(" ")[1]}&apos;s To Do
           </h2>
           <div className="flex justify-between items-center mb-4">
             <span className="text-lg">Welcome, {data.user?.name}!</span>
