@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 import AddForm from './components/Form';
 import Todos from './components/Todos';
 import { useState, useEffect, useCallback } from 'react';
-import { getTodo } from '@/api/todoactions';
+import { getTodo } from './api/todoactions';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { ClipLoader } from 'react-spinners';

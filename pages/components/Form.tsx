@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button, TextArea } from '@radix-ui/themes';
-import { addTodo } from '@/api/todoactions';
+import { addTodo } from '../api/todoactions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
@@ -26,6 +26,7 @@ const AddForm: React.FC<AddFormProps> = ({ onTaskAdded }) => {
       document.querySelector("form")?.reset()
       onTaskAdded(); 
     } catch (err: any) {
+      console.log(err)
       toast.error(err.message);
     } finally {
       setLoading(false);

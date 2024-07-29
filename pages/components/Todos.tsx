@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { changeStatus, deleteTodo, editTodo } from '@/api/todoactions';
+import { changeStatus, deleteTodo, editTodo } from "../api/todoactions"
 import { Input } from '@/components/ui/input';
 import {
   Dialog,
