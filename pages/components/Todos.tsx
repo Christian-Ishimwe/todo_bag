@@ -104,7 +104,7 @@ const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
                   <DialogTrigger asChild>
                     <button
                       type="button"
-                      className="bg-slate-500 text-white px-4 py-2 rounded-md"
+                      className="bg-slate-500 text-white w-14 text-sm rounded-md"
                       onClick={() => {
                         setEditTaskId(task.id);
                         setEditTaskValue(task.task);
@@ -121,21 +121,21 @@ const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
                         <Input
                           value={editTaskValue}
                           onChange={(e) => setEditTaskValue(e.target.value)}
-                          className="mt-4 outline-1"
+                          className="my-4  outline-1 "
                         />
                       </DialogDescription>
                       <DialogFooter 
                       >
                         <button
                           type="button"
-                          className="bg-slate-500 text-white px-4 py-2 rounded-md"
+                          className="bg-slate-500 text-white p-2 text-sm rounded-md"
                           onClick={() => setEditTaskId(null)} 
                         >
                           Cancel
                         </button>
                         <button
                           type="button"
-                          className="bg-slate-900 text-white px-4 py-2 rounded-md "
+                          className="bg-slate-900 text-white p-2 text-sm rounded-md "
                           onClick={handleEdit} 
                           
                         >
@@ -149,7 +149,7 @@ const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
                   <AlertDialogTrigger asChild>
                     <button
                       type="button"
-                      className="bg-red-700 text-white px-4 py-2 rounded-md"
+                      className="bg-red-700 text-white px-4 py-2  rounded-md"
                     >
                       Delete
                     </button>

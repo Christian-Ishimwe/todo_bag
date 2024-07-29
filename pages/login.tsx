@@ -34,7 +34,7 @@ export default function IndexPage() {
       <h1 className="text-2xl mb-4">Sign In</h1>
       <button
         onClick={() => handleSignIn('google')}
-        className="bg-blue-600 text-white px-4 py-2 rounded-md flex items-center hover:bg-blue-700 transition mb-2"
+        className="bg-blue-600 text-white px-4 py-2 w-52   rounded-md flex items-center hover:bg-blue-700 transition mb-2"
         disabled={signingInProvider === 'google'}
       >
         <FaGoogle className="mr-2 text-lg" />
@@ -42,7 +42,7 @@ export default function IndexPage() {
       </button>
       <button
         onClick={() => handleSignIn('github')}
-        className="bg-gray-800 text-white px-4 py-2 rounded-md flex items-center hover:bg-gray-700 transition"
+        className="bg-gray-800 w-52 text-white px-4 py-2 rounded-md flex items-center hover:bg-gray-700 transition"
         disabled={signingInProvider === 'github'} 
       >
         <FaGithub className="mr-2 text-lg" />

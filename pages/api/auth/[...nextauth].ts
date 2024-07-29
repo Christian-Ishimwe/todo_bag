@@ -8,8 +8,7 @@ const googleId = process.env.GOOGLE_ID!;
 const googleSecret = process.env.GOOGLE_SECRET!;
 const githubId=process.env.GITHUB_ID!
 const githubSecret=process.env.GITHUB_SECRET!
-
-
+const secretKey= process.env.NEXTAUTH_SECRET!
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -21,6 +20,7 @@ export const authOptions: NextAuthOptions = {
         clientSecret: githubSecret
     })
   ],
+  secret: secretKey,
   session: {
     strategy: 'jwt',
   },

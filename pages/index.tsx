@@ -8,6 +8,7 @@ import { getTodo } from '@/api/todoactions';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { ClipLoader } from 'react-spinners';
+import { Button } from '@radix-ui/themes';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,7 +22,7 @@ export default function Home() {
   const { data, status } = useSession();
   const router = useRouter();
   const [tasks, setTasks] = useState<Task[]>([]);
-
+  const [loading, setLoading]=useState(false)
   const fetchTasks = useCallback(async () => {
     if (status === "authenticated" && data?.user?.email) {
       try {
@@ -56,12 +57,19 @@ export default function Home() {
   if (status === "authenticated") {
     return (
       <main className={`relative container py-4 px-4 bg-slate-400 min-h-screen sm:px-6 md:px-8 lg:px-10 ${inter.className}`}>
-        <button
-          onClick={() => signOut()}
-          className='absolute top-4 right-4 bg-slate-900 text-white rounded-md px-4 py-2 hover:bg-slate-800'
-        >
+        <div className='absolute top-4 right-4'>
+       
+        <Button
+          onClick={() => {
+            setLoading(true)
+            signOut()}}
+          className=' bg-slate-900 text-white rounded-md px-3 text-sm py-1 hover:bg-slate-800'
+          loading={loading}
+            color='tomato'
+          >
           Sign Out
-        </button>
+        </Button>
+         </div>
         <div className="text-white w-full max-w-2xl mx-auto bg-slate-900 rounded-md p-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
             {data.user?.name?.split(" ")[1]}&apos;s To Do
