@@ -1,6 +1,6 @@
 // hooks/useChangeStatus.ts
 import { toast } from 'react-toastify';
-import { changeStatus } from '../api/todoactions';
+import { changeStatus } from './../todoactions';
 export const useChangeStatus = (onTaskUpdated: () => void) => {
   const handleStatusChange = async (id: string, done: boolean) => {
     try {

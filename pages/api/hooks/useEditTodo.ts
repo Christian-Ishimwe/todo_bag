@@ -1,7 +1,7 @@
 // hooks/useEditTodo.ts
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { editTodo } from '../api/todoactions';
+import { editTodo } from './../todoactions';
 
 export const useEditTodo = (onTaskUpdated: () => void) => {
   const [editTaskId, setEditTaskId] = useState<string | null>(null);

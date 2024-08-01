@@ -1,7 +1,7 @@
 'use client';
-import { useEditTodo } from '../hooks/useEditTodo';
-import { useDeleteTodo } from '../hooks/useDeleteTodo';
-import { useChangeStatus } from '../hooks/useChangeStatus';
+import { useEditTodo } from '../api/hooks/useEditTodo';
+import { useDeleteTodo } from '../api/hooks/useDeleteTodo';
+import { useChangeStatus } from '../api/hooks/useChangeStatus';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { Input } from '@/components/ui/input';

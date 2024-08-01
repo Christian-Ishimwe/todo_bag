@@ -1,6 +1,6 @@
 // hooks/useDeleteTodo.ts
 import { toast } from 'react-toastify';
-import { deleteTodo } from '../api/todoactions';
+import { deleteTodo } from './../todoactions';
 
 export const useDeleteTodo = (onTaskUpdated: () => void) => {
   const handleDelete = async (id: string) => {
