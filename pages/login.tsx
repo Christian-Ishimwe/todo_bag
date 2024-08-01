@@ -5,6 +5,7 @@ import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Inter } from 'next/font/google';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
+import Head from 'next/head';
 const inter = Inter({ subsets: ['latin'] });
 export default function IndexPage() {
   const { data, status } = useSession();
@@ -31,6 +32,9 @@ export default function IndexPage() {
 
   return (
     <div className={`container ${inter.className} min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white`}>
+      <Head>
+          <title>Login Todo</title>
+        </Head>
       <h1 className="text-2xl mb-4">Sign In</h1>
       <button
         onClick={() => handleSignIn('google')}

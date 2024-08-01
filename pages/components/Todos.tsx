@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+'use client';
+import { useEditTodo } from '../hooks/useEditTodo';
+import { useDeleteTodo } from '../hooks/useDeleteTodo';
+import { useChangeStatus } from '../hooks/useChangeStatus';
+import React from 'react';
 import { toast } from 'react-toastify';
-import { changeStatus, deleteTodo, editTodo } from "../api/todoactions"
 import { Input } from '@/components/ui/input';
 import {
   Dialog,
@@ -34,43 +37,10 @@ interface TodosProps {
   onTaskUpdated: () => void;
 }
 
-const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
-  const [editTaskId, setEditTaskId] = useState<string | null>(null);
-  const [editTaskValue, setEditTaskValue] = useState<string>('');
-
-  const handleEdit = async () => {
-    if (editTaskId && editTaskValue) {
-      try {
-        await editTodo(editTaskId, editTaskValue);
-        toast.success('Task updated successfully');
-        onTaskUpdated();
-        setEditTaskId(null);
-        setEditTaskValue('');
-      } catch (err: any) {
-        toast.error(err.message);
-      }
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteTodo(id);
-      toast.success('Task deleted successfully');
-      onTaskUpdated();
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
-
-  const handleStatusChange = async (id: string, done: boolean) => {
-    try {
-      await changeStatus(id, done);
-      toast.success('Task status updated successfully');
-      onTaskUpdated();
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
+const Todos = ({ tasks = [], onTaskUpdated }: TodosProps) => {
+  const { editTaskId, setEditTaskId, editTaskValue, setEditTaskValue, handleEdit } = useEditTodo(onTaskUpdated);
+  const { handleDelete } = useDeleteTodo(onTaskUpdated);
+  const { handleStatusChange } = useChangeStatus(onTaskUpdated);
 
   return (
     <div className="mt-4">
@@ -116,28 +86,25 @@ const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>Edit the Task</DialogTitle>
-                      <DialogDescription  className="mb-3"
->
+                      <DialogDescription className="mb-3">
                         <Input
                           value={editTaskValue}
                           onChange={(e) => setEditTaskValue(e.target.value)}
-                          className="my-4  outline-1 "
+                          className="my-4 outline-1"
                         />
                       </DialogDescription>
-                      <DialogFooter 
-                      >
+                      <DialogFooter>
                         <button
                           type="button"
                           className="bg-slate-500 text-white p-2 text-sm rounded-md"
-                          onClick={() => setEditTaskId(null)} 
+                          onClick={() => setEditTaskId(null)}
                         >
                           Cancel
                         </button>
                         <button
                           type="button"
-                          className="bg-slate-900 text-white p-2 text-sm rounded-md "
-                          onClick={handleEdit} 
-                          
+                          className="bg-slate-900 text-white p-2 text-sm rounded-md"
+                          onClick={handleEdit}
                         >
                           Update
                         </button>
@@ -149,7 +116,7 @@ const Todos: React.FC<TodosProps> = ({ tasks = [], onTaskUpdated }) => {
                   <AlertDialogTrigger asChild>
                     <button
                       type="button"
-                      className="bg-red-700 text-white px-4 py-2  rounded-md"
+                      className="bg-red-700 text-white px-4 py-2 rounded-md"
                     >
                       Delete
                     </button>

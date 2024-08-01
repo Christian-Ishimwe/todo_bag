@@ -1,5 +1,5 @@
 "use client";
-
+import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import AddForm from './components/Form';
 import Todos from './components/Todos';
@@ -58,7 +58,9 @@ export default function Home() {
     return (
       <main className={`relative container py-4 px-4 bg-slate-400 min-h-screen sm:px-6 md:px-8 lg:px-10 ${inter.className}`}>
         <div className='absolute top-4 right-4'>
-       
+        <Head>
+          <title>{data.user?.name?.split(" ")[1]} Todo</title>
+        </Head>
         <Button
           onClick={() => {
             setLoading(true)
