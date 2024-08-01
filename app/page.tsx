@@ -6,7 +6,7 @@ import Todos from './components/Todos';
 import { useState, useEffect, useCallback } from 'react';
 import { getTodo } from './api/todoactions';
 import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'
 import { ClipLoader } from 'react-spinners';
 import { Button } from '@radix-ui/themes';
 
@@ -29,7 +29,6 @@ export default function Home() {
         const response = await getTodo(data.user.email);
         setTasks(response);
       } catch (error) {
-        console.error('Failed to fetch tasks:', error);
       }
     }
   }, [status, data?.user?.email]);
